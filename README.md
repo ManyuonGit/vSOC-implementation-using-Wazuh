@@ -1,1 +1,11 @@
-# vSOC
+# End-to-End SIEM and EDR Implementation: L1 SOC Operations using Wazuh
+
+This repository details a **Wazuh Security Information and Event Management (SIEM)** and **Endpoint Detection and Response (EDR)** infrastructure simulating a **Security Operations Centre (SOC)** for Level 1 analysis. The **Hypervisor**, **VMware Workstation Pro 17** hosts the **Wazuh Manager**, where the distro of choice was **Ubuntu Server 24.04**. Heterogeneous endpoints, comprising a **Lubuntu 22.04 Linux agent** and a **Windows 11 agent** (local host), validate telemetry normalisation into a centralised dashboard. Implementation of the vSOC consisted of the following phases: 
+
+**Network implementation:**
+A **Hub-and-Spoke topology** within a Network Address Translation (NAT) virtual network isolates the vSOC. Encryption using **AES-256** standards secures telemetry over **TCP/UDP port 1514**. The Wazuh Manager correlation engine parses Windows Event Channels, Microsoft Defender API, Linux SSHD, and Syslog outputs. Endpoint **ossec.conf** files bind directly to the Manager IP to ensure secure data flow.
+
+**Security Operations:**
+Correlation rules mapped to the **MITRE ATT&CK** framework detected **SSH Brute Force** and **Privilege Escalation** (runas) vectors, triggering **high-severity alerts**, achieving **100% detection**, while eliminating false positives. **Vulnerability Assessment** modules were configured that audited baselines against **CIS benchmarks** and **Canonical OVAL definitions**, identifying **Common Vulnerabilities and Exposures (CVEs)**. **Active Incident Response** algorithms executed real-time countermeasures. The manager automatically triggered a **host-deny** command, **isolating attacker IPs** and minimising **Mean Time to Respond (MTTR)**.
+
+This deployment validates SIEM capabilities for **threat triage** and **automated defence**, as well as strengthens SOC Analyst skills such as **alert monitoring**, **VAPT**, and **log analysis**. Resolving **XML configuration syntax errors** and **correlation engine logic conflicts** demonstrated necessary **diagnostic resilience**. Programmatically responding to **adversary tactics** establishes a functional foundation for managing **heterogeneous security infrastructures**.
