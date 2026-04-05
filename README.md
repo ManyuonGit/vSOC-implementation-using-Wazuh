@@ -17,22 +17,18 @@ The environment is structured to **centralise security management** and **monito
 
 ## Configured Security Controls
 The SIEM is configured to mitigate specific threat profiles using **correlation engines** and **automated policy enforcement**.
-
 **Threat Detection Engineering**
 * **Correlation Rules:** Custom **XML-based rules** within the `ossec.conf` file maps incoming events and analyse them according to the **MITRE ATT&CK framework**, ensuring accurate classification of potential **Brute-force** and **Privilege Escalation** vectors.
 * **Endpoint Protection (EPP):** The **Windows agent** integrates with **Microsoft Defender** to capture real-time **malicious file write interceptions**.
-
 **Automated Incident Response**
 * **Defensive Logic:** An **Active Response module** is configured in the **Manager's** `ossec.conf` file to trigger on **Rule 5712 (SSH brute force)**.
 * **Countermeasure:** Executes a `host-deny` **command** to instruct the **SSH daemon** to drop traffic from the malicious **source IP**.
-
 **Vulnerability Assessment**
 * **Inventory Scanning:** The configured **Vulnerability Detector module** in the **Manager's** `ossec.conf` file cross-references installed packages against **Canonical OVAL definitions** (Canonical's rulebook used by security tools to automatically detect known CVEs on Ubuntu systems).
 * **Compliance:** Audits system baselines against **CIS benchmarks** to identify unpatched **Common Vulnerabilities and Exposures (CVEs)**.
 
 ## Attack Simulation & Validation
 Validation was executed from the Lubuntu **Red Team node** and **Agent/Manager CLIs** to ensure **telemetry ingestion on the Manager Dashboard** and **response mechanisms** functioned correctly.
-
 * **Privilege Escalation Testing:** Execution of the `runas` **command** on the **Windows host** triggered `Rule 60122` (Logon Failure), which correctly escalated to `Rule 60204` (Multiple Windows Logon Failures) after repeatedly executing the command.
 * **Malware Defence Testing:** Implantation of an **EICAR test string** resulted in real-time **Quarantine** by **Windows Defender**, with the event successfully forwarded and visualised on the **Wazuh Manager dashboard** as a **Level 12 alert**.
 * **Vulnerability Detection:** Continuous scanning identified **36 Critical CVEs** resulting from an experimental kernel version `linux-image-6.14.0-2` on the Linux agent.
